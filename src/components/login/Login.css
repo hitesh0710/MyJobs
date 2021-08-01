@@ -25,6 +25,6 @@
 
 .error-message {
     color: #FF6565;
-    position: absolute;
+    position: relative;
     margin-bottom: 1;
 }

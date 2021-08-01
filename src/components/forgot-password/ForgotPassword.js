@@ -10,9 +10,9 @@ import './ForgotPassword.css';
 export default function ForgotPassword() {
 
     const schema = yup.object().shape({
-        password: yup.string().min(2, "*Password must have at least 2 characters")
+        password: yup.string().min(6, "*Password must have at least 6 characters")
             .max(50, "*Password can't be longer than 50 characters").required(),
-        confirmPassword: yup.string().min(2, "*Name must have at least 2 characters")
+        confirmPassword: yup.string().min(6, "*Name must have at least 6 characters")
             .max(50, "*Password can't be longer than 50 characters").required(),
     });
 

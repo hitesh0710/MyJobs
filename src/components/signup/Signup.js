@@ -3,21 +3,23 @@ import Form from 'react-bootstrap/Form'
 import { Col, Row } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Signup.css';
 import { snackbar } from '../toaster/Toaster'
+import { baseUrl } from '../../Urls';
 
 export default function Signup() {
 
     const schema = yup.object().shape({
         email: yup.string().email("*Must be a valid email address")
             .max(100, "*Email must be less than 100 characters").required(),
-        password: yup.string().min(2, "*Password must have at least 2 characters")
+        password: yup.string().min(6, "*Password must have at least 6 characters")
             .max(50, "*Password can't be longer than 100 characters").required(),
         name: yup.string().min(2, "*Name must have at least 2 characters")
             .max(100, "*Names can't be longer than 100 characters").required(),
         userRole: yup.number().required(),
-        confirmPassword: yup.string().min(2, "*Password must have at least 2 characters")
+        confirmPassword: yup.string().min(6, "*Password must have at least 6 characters")
             .max(50, "*Password can't be longer than 100 characters").required(),
         skills: yup.string()
     });
@@ -30,12 +32,19 @@ export default function Signup() {
                     validationSchema={schema}
                     onSubmit={(values, { setSubmitting, resetForm }) => {
                         setSubmitting(true);
-                        setTimeout(() => {
-                            console.log(values);
-                            resetForm();
-                            setSubmitting(false);
-                            snackbar("notification", "wow")
-                        }, 500);
+                        axios.post(`${baseUrl}/auth/register`, values)
+                            .then(res => {
+                                //history.push(`/home`);
+                                snackbar("notification", "user created successfully");
+                                resetForm();
+                                setSubmitting(false);
+                            })
+                            .catch((error) => {
+                                if (error) {
+                                    snackbar("error", "user already exists");
+                                    setSubmitting(false);
+                                }
+                            });
                     }}
                     initialValues={{
                         email: '',

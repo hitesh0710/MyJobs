@@ -1,17 +1,23 @@
+import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import { Col, Row } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './Login.css';
+import { snackbar } from '../toaster/Toaster';
+import { baseUrl } from '../../Urls';
 
 export default function Login() {
-
+    const history = useHistory();
+    const [isLoggedIn, setLogin] = React.useState(false);
     const schema = yup.object().shape({
         email: yup.string().email("*Must be a valid email address")
             .max(100, "*Email must be less than 100 characters").required(),
-        password: yup.string().min(2, "*Password must have at least 2 characters")
+        password: yup.string().min(6, "*Password must have at least 6 characters")
             .max(50, "*Password can't be longer than 50 characters").required(),
     });
 
@@ -23,11 +29,20 @@ export default function Login() {
                     validationSchema={schema}
                     onSubmit={(values, { setSubmitting, resetForm }) => {
                         setSubmitting(true);
-                        setTimeout(() => {
-                            console.log(values);
-                            resetForm();
-                            setSubmitting(false);
-                        }, 500);
+                        axios.post(`${baseUrl}/auth/login`, values)
+                            .then(res => {
+                                history.push(`/jobs`);
+                                snackbar("notification", "logged in successfully");
+                                resetForm();
+                                setSubmitting(false);
+                                setLogin(true);
+                            })
+                            .catch((error) => {
+                                if (error) {
+                                    snackbar("error", "username or password incorrect");
+                                    setSubmitting(false);
+                                }
+                            });
                     }}
                     initialValues={{
                         email: '',
