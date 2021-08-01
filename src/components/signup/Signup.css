@@ -1,0 +1,37 @@
+.SignupBox {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 30px 36px #557DA526;
+    border-radius: 20px;
+    opacity: 1;
+}
+
+.parent {
+    overflow: hidden;
+    width: 40%;
+    margin: auto;
+}
+
+.hreflink {
+    text-decoration: #43AFFF;
+}
+
+.textboxBg {
+    background-color: #E8E8E833;
+}
+
+.radio-toolbar input[type="radio"] {
+    display: none;
+}
+
+.radio-toolbar label {
+    display: inline-block;
+    background-color: rgb(236, 244, 248);
+    padding: 2px 5px;
+    font-family: sans-serif, Arial;
+    border-radius: 4px;
+}
+
+.radio-toolbar input[type="radio"]:checked+label {
+    background-color: rgb(15, 143, 228);
+    color: white;
+}

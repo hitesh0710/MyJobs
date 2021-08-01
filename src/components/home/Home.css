@@ -1,0 +1,17 @@
+.img-style {
+    box-shadow: 0px 30px 36px #557DA526;
+    border-radius: 20px;
+    opacity: 1;
+    width: 82%;
+    vertical-align: middle;
+}
+
+.text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.one {
+    display: flex;
+    align-items: center;
+}

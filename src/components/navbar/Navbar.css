@@ -1,0 +1,22 @@
+.navbar-custom {
+    background: transparent linear-gradient(248deg, #303F60 0%, #1A253C 100%) 0% 0% no-repeat padding-box;
+}
+
+.custom-button {
+    background: #43AFFF33 0% 0% no-repeat padding-box;
+    border: 1px solid #43AFFF;
+    border-radius: 5px;
+    opacity: 1;
+}
+
+.custom-button:hover {
+    background: #01121f33 0% 0% no-repeat padding-box;
+    border: 1px solid #43AFFF;
+    border-radius: 5px;
+    opacity: 1;
+}
+
+.dividerTop {
+    border: 1px solid #4D618E;
+    opacity: 0.5;
+}
