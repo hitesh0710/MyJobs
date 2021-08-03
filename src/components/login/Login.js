@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import { Col, Row } from 'react-bootstrap';
@@ -10,10 +10,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import './Login.css';
 import { snackbar } from '../toaster/Toaster';
 import { baseUrl } from '../../Urls';
+import { UserContext } from '../../App';
+
 
 export default function Login() {
     const history = useHistory();
-    const [isLoggedIn, setLogin] = React.useState(false);
+    const LoginData = useContext(UserContext);
     const schema = yup.object().shape({
         email: yup.string().email("*Must be a valid email address")
             .max(100, "*Email must be less than 100 characters").required(),
@@ -35,7 +37,10 @@ export default function Login() {
                                 snackbar("notification", "logged in successfully");
                                 resetForm();
                                 setSubmitting(false);
-                                setLogin(true);
+                                LoginData.setLogin(true);
+                                LoginData.setToken(res.data.data.token);
+                                LoginData.setUser(res.data.data.name);
+                                console.log(LoginData.userName);
                             })
                             .catch((error) => {
                                 if (error) {
@@ -116,6 +121,6 @@ export default function Login() {
                     <p>New to MyJobs? <a href="/signup" className="hreflink">Create New Account</a></p>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }

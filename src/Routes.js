@@ -9,6 +9,7 @@ import Signup from './components/signup/Signup';
 import GetJobs from './components/get-jobs/GetJobs';
 
 export function Routes() {
+
     return (
         <Router>
             <div className="container">
