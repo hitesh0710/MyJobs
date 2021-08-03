@@ -4,7 +4,7 @@
 3. lets user login into portal
 4. signup for recruiter/candidate
 
-# Prerequites
+# Prerequisites
 1. React v17+
 2. Bootstrap 5+
 3. React-bootstrap V2.0.0-beta.4
