@@ -6,15 +6,19 @@ import Button from 'react-bootstrap/Button';
 import Divider from '@material-ui/core/Divider';
 import Avatar from 'react-avatar';
 import "bootstrap/dist/css/bootstrap.min.css";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import './Navbar.css';
 import { UserContext } from '../../App';
 
 export function Header() {
     const history = useHistory();
-    const { isLoggedIn, userName, setLogin, setUser } = useContext(UserContext);
+    const { isLoggedIn, userName, setLogin, setUser, setToken } = useContext(UserContext);
+
     const logout = () => {
         setLogin(false);
-        setUser('');
+        setUser(undefined);
+        setToken(undefined);
+
     }
     return (
         <div>
@@ -25,8 +29,9 @@ export function Header() {
                     <Navbar.Collapse className="justify-content-end">
                         {
                             !isLoggedIn ? (<Button className="custom-button" onClick={() => history.push('/login')}>Login/Signup</Button>) : (<Navbar.Text>
+                                <a href='/postjob' className="text-white px-4 text-decoration-none" >Post a job</a>
                                 <Avatar name={userName} size="40" round="30px" />
-                                <Button onClick={logout}>logout</Button>
+                                <Button onClick={logout} className="mx-2" title="logout" style={{ backgroundColor: "transparent", border: "none", color: "red" }} > <ExitToAppIcon /></Button>
                             </Navbar.Text>)
                         }
                     </Navbar.Collapse>

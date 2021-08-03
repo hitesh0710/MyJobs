@@ -1,0 +1,29 @@
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    flex: 1 0 500px;
+    box-sizing: border-box;
+    margin: 1rem .25em;
+}
+
+.textOverflow {
+    width: 18em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.customButton {
+    background-color: #EDF6FF;
+    color: black;
+    border: none;
+}
+
+.customButton:hover {
+    background-color: #303F60;
+    color: white;
+    border: none;
+}

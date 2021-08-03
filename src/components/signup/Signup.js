@@ -1,3 +1,5 @@
+import React, { useContext } from 'react';
+import { Redirect } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import { Col, Row } from 'react-bootstrap';
@@ -8,9 +10,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import './Signup.css';
 import { snackbar } from '../toaster/Toaster'
 import { baseUrl } from '../../Urls';
+import { UserContext } from '../../App';
 
 export default function Signup() {
 
+    const { isLoggedIn } = useContext(UserContext);
     const schema = yup.object().shape({
         email: yup.string().email("*Must be a valid email address")
             .max(100, "*Email must be less than 100 characters").required(),
@@ -24,6 +28,9 @@ export default function Signup() {
         skills: yup.string()
     });
 
+    if (isLoggedIn)
+        return (<Redirect to={{ pathname: '/jobs', }} />)
+
     return (
         <div className="SignupBox parent">
             <div className="m-4 center">
@@ -34,7 +41,6 @@ export default function Signup() {
                         setSubmitting(true);
                         axios.post(`${baseUrl}/auth/register`, values)
                             .then(res => {
-                                //history.push(`/home`);
                                 snackbar("notification", "user created successfully");
                                 resetForm();
                                 setSubmitting(false);
@@ -117,7 +123,6 @@ export default function Signup() {
                                     ) : null}
                                 </Form.Group>
                             </Row>
-                            <Row></Row>
                             <Row className="mb-3">
                                 <Form.Group
                                     as={Col}

@@ -7,6 +7,8 @@ import { Header } from './components/navbar/Navbar';
 import ForgotPassword from './components/forgot-password/ForgotPassword';
 import Signup from './components/signup/Signup';
 import GetJobs from './components/get-jobs/GetJobs';
+import PrivateRoute from './PrivateRoutes';
+import PostJob from './components/post-job/PostJob';
 
 export function Routes() {
 
@@ -19,7 +21,8 @@ export function Routes() {
                 <Route path="/login" component={Login} />
                 <Route path="/forgot-password" component={ForgotPassword} />
                 <Route path="/signup" component={Signup} />
-                <Route path="/jobs" component={GetJobs} />
+                <PrivateRoute path="/jobs" component={GetJobs} />
+                <PrivateRoute path="/postjob" component={PostJob} />
                 <Route exact path="/">
                     <Redirect to="/home" />
                 </Route>

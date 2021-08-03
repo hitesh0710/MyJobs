@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { Redirect } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form'
 import { Col, Row } from 'react-bootstrap';
@@ -15,7 +16,7 @@ import { UserContext } from '../../App';
 
 export default function Login() {
     const history = useHistory();
-    const LoginData = useContext(UserContext);
+    const { isLoggedIn, setLogin, setUser, setToken } = useContext(UserContext);
     const schema = yup.object().shape({
         email: yup.string().email("*Must be a valid email address")
             .max(100, "*Email must be less than 100 characters").required(),
@@ -23,6 +24,8 @@ export default function Login() {
             .max(50, "*Password can't be longer than 50 characters").required(),
     });
 
+    if (isLoggedIn)
+        return (<Redirect to={{ pathname: '/jobs', }} />)
     return (
         <div className="loginBox parent">
             <div className="m-4 center">
@@ -33,14 +36,13 @@ export default function Login() {
                         setSubmitting(true);
                         axios.post(`${baseUrl}/auth/login`, values)
                             .then(res => {
-                                history.push(`/jobs`);
-                                snackbar("notification", "logged in successfully");
                                 resetForm();
                                 setSubmitting(false);
-                                LoginData.setLogin(true);
-                                LoginData.setToken(res.data.data.token);
-                                LoginData.setUser(res.data.data.name);
-                                console.log(LoginData.userName);
+                                setUser(res.data.data.name);
+                                setToken(res.data.data.token);
+                                setLogin(true);
+                                history.push(`/jobs`);
+                                snackbar("notification", "logged in successfully");
                             })
                             .catch((error) => {
                                 if (error) {

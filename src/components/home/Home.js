@@ -1,8 +1,14 @@
+import React, { useContext } from 'react';
+import { Redirect } from 'react-router-dom'
 import './Home.css';
 import Button from 'react-bootstrap/Button'
 import { Container, Col, Row } from 'react-bootstrap';
+import { UserContext } from '../../App';
 
 function Home() {
+    const { isLoggedIn } = useContext(UserContext);
+    if (isLoggedIn)
+        return (<Redirect to={{ pathname: '/jobs', }} />)
     return (
         <Container className="mt-4">
             <Row className="justify-content-md-center">

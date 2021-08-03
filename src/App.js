@@ -17,24 +17,19 @@ export const UserContext = React.createContext(
 const UserContextProvider = UserContext.Provider;
 
 function App() {
-  const [isLoggedIn, setLogin] = React.useState(false);
-  const [authToken, setToken] = React.useState(undefined);
-  const [userName, setUser] = React.useState(undefined);
 
-  React.useEffect(() => {
-    const parsedLoggedIn = JSON.parse(localStorage.getItem("login")) || false;
-    const name = localStorage.getItem('name') || '';
-    const token = localStorage.getItem('token') || '';
-    setLogin(parsedLoggedIn);
-    setUser(name);
-    setToken(token);
-  }, []);
+  const parsedLoggedIn = JSON.parse(localStorage.getItem("login")) || false;
+  const name = localStorage.getItem('name') || '';
+  const token = localStorage.getItem('token') || '';
+  const [isLoggedIn, setLogin] = React.useState(parsedLoggedIn);
+  const [authToken, setToken] = React.useState(token);
+  const [userName, setUser] = React.useState(name);
 
   React.useEffect(() => {
     localStorage.setItem('login', isLoggedIn);
     localStorage.setItem('name', userName);
     localStorage.setItem('token', authToken);
-  }, [isLoggedIn]);
+  }, [isLoggedIn, authToken, userName]);
 
   let user = {
     isLoggedIn,

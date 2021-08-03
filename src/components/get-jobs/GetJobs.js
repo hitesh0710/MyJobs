@@ -2,54 +2,142 @@ import React, { useContext } from 'react';
 import axios from 'axios';
 import './GetJobs.css';
 import { baseUrl } from '../../Urls';
-import Card from 'react-bootstrap/Card'
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import { UserContext } from '../../App';
+import GetCandidates from '../get-candidates/GetCandidates';
+import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
+import { useHistory } from 'react-router-dom';
 
 function ShowJobs({ job }) {
+    const [showCandidates, handleCandidates] = React.useState(false);
     return (
-        <Card style={{ width: '18rem' }}>
-            <Card.Body>
-                <Card.Title>Card Title</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-                <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
-                </Card.Text>
-                <Card.Link href="#">Card Link</Card.Link>
-                <Card.Link href="#">Another Link</Card.Link>
-            </Card.Body>
-        </Card>
+        <div className="col-4">
+            <Card style={{ width: '20em' }}>
+                <Card.Body>
+                    <Card.Title>{job.title}</Card.Title>
+                    <Card.Text className="textOverflow">
+                        {job.description}
+                    </Card.Text>
+                    <Card.Text>
+                        <div>
+                            <div>
+                                <LocationOnOutlinedIcon className="text-primary" /> {job.location}
+                            </div>
+                            <Button onClick={() => handleCandidates(true)} className="my-2 customButton">Applied Candidates</Button>
+                        </div>
+                    </Card.Text>
+                </Card.Body >
+            </Card >
+            <GetCandidates showCandidates={showCandidates} handleCandidates={handleCandidates} id={job.id} />
+
+        </div >
     );
 }
 
 function GetJobs() {
     const [jobs, setJobs] = React.useState([]);
     const { authToken } = useContext(UserContext);
+    const [isLoading, setLoad] = React.useState(true);
+    const [currData, setcurrData] = React.useState([])
+    const [totalPic, settotalPic] = React.useState(0);
+    const [currPage, setcurrPage] = React.useState(0);
+    const [error, setError] = React.useState(false);
+    const [isHR, setHR] = React.useState(false);
+    const [empty, setEmpty] = React.useState(false);
+    const history = useHistory();
     React.useEffect(() => {
-        console.log(authToken);
         axios.get(`${baseUrl}/recruiters/jobs`, {
             headers: {
-                'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBpQGdtYWlsLmNvbSIsIm5hbWUiOiJQaWthIiwic2tpbGxzIjoiU3BlYWtpbmciLCJ1c2VyUm9sZSI6MCwiY3JlYXRlZEF0IjoiMjAyMS0wOC0wMlQxNjoxMDoyOS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMS0wOC0wMlQxNjoxMDoyOS4wMDBaIiwiaWQiOiJlMjllNjUwMC02ZGFkLTRlZTQtOTdmZC0zODlkYzlkMDM3MTYiLCJpYXQiOjE2Mjc5MjA3MDR9.ZCLqBl8rFIyrykhEe_lWAYqJI1SzsKc9xLisv6QAcYY'
+                'Authorization': authToken
             }
         }).then(res => {
             setTimeout(() => {
-                setJobs(res.data.data.data);
-                console.log(res.data.data.data);
+                setcurrPage(1);
+                if (res.data.data) {
+                    setJobs(res.data.data.data);
+                    settotalPic(jobs.length);
+                    const currPageData = jobs.slice(0, 10);
+                    setLoad(false);
+                    setcurrData(currPageData);
+                }
+                else if (res.status === 200) {
+                    setEmpty(true);
+                    setLoad(false);
+
+                }
+                else {
+                    setHR(true);
+                    setLoad(false);
+                }
             }, 1000)
         }).catch((error) => {
-            console.log(error);
+            setError(true);
+            setLoad(false);
         });
 
     }, []);
+
+    const prevPage = (e) => {
+        e.preventDefault();
+        let nxtPage = currPage;
+        nxtPage--;
+        const currPageData = jobs.slice((nxtPage - 1) * 10, nxtPage * 10);
+        setcurrPage(nxtPage);
+        setcurrData(currPageData);
+
+    }
+
+    const nextPage = (e) => {
+        e.preventDefault();
+        let nxtPage = currPage;
+        nxtPage++;
+        const currPageData = jobs.slice(currPage * 10, nxtPage * 10);
+        setcurrPage(nxtPage);
+        setcurrData(currPageData);
+        if (currData)
+            console.log(currData);
+
+    }
+    const postJob = () => {
+        history.push('/postjob');
+    }
+    if (empty)
+        return (
+            <div className="text-center">
+                <h3 className="text-muted">Your posted jobs will show here</h3>
+                <Button variant="primary" onClick={postJob} className="m-5">Post a Job</Button>
+            </div>
+        );
+    if (isHR)
+        return (<h4 className="text-center alert alert-danger">You are not authorized to view this page</h4>);
+    if (error)
+        return (<h4 className="text-center alert alert-danger">An error occured, please try again later</h4>);
+    if (isLoading)
+        return (<div>
+            <h2 className="text-white">Jobs posted by you</h2>
+            <div className="d-flex justify-content-center">
+                <div className="spinner-border text-white" style={{ width: '3rem', height: '3rem' }} role="status">
+                </div>
+            </div></div>);
     return (
         <div>
             <h2 className="text-white">Jobs posted by you</h2>
-            {
-                jobs.map((job) => {
-                    return <ShowJobs job={job} />;
-                })
-            }
-            <ShowJobs />
+            <div className="row">
+                {totalPic > 0 &&
+                    <div>
+                        {currPage > 1 && <button onClick={prevPage}> {`<`} </button>}
+                        {currPage}
+                        {currPage >= 1 && currPage < totalPic / 10 && <button onClick={nextPage}> {`>`} </button>}
+                    </div>}
+
+                {
+                    jobs.map((job) => {
+                        return <ShowJobs job={job} key={job.id} />;
+                    })
+                }
+
+            </div>
         </div>
     );
 }
