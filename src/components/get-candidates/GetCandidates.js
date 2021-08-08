@@ -10,12 +10,12 @@ import { Container, Col, Row } from 'react-bootstrap';
 
 function ShowCandidates({ candidate }) {
     return (
-        <Card style={{ width: '25rem' }} >
+        <Card >
             <Card.Body>
                 <Card.Text>
                     <Container>
                         <Row >
-                            <Col className="align-self-center">
+                            <Col className="align-self-center flex-grow-0">
                                 <Avatar name={candidate.name} size="50" round="30px" />
                             </Col>
                             <Col>
@@ -24,10 +24,18 @@ function ShowCandidates({ candidate }) {
                                 {candidate.email}
                             </Col>
                         </Row>
+                        <Row className="mt-3">
+                            <Col>
+                                <strong>Skills:</strong>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                {candidate.skills}
+                            </Col>
+                        </Row>
                     </Container >
                 </Card.Text>
-                <h6>Skills:</h6>
-                <Card.Text >{candidate.skills}</Card.Text>
             </Card.Body>
         </Card >
     );
@@ -83,27 +91,27 @@ function GetCandidates({ showCandidates, handleCandidates, id }) {
 
     return (
         <div>
-            <Modal show={showCandidates} onHide={() => handleCandidates(false)}>
+            <Modal show={showCandidates} onHide={() => handleCandidates(false)} className="rounded" size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>Applied Candidates</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="bg-light flex-row overflow-auto">
-                    <div className="modal-body">
-                        <div className="container-fluid">
-                            <div className="row">
-                                <div className="col"> {
-                                    candidates ?
-                                        (candidates.map((candidate) => {
-                                            return <ShowCandidates candidate={candidate} key={candidate.id} />;
-                                        })) : (<h4 className="text-center">No applications available!</h4>)
-                                }</div>
+                <Modal.Body className="bg-light">
+                    <Container >
+                        <Row>
 
-                            </div>
-                        </div>
-                    </div>
+                            {
+                                candidates ?
+                                    (candidates.map((candidate) => {
+                                        return <Col xs={12} md={6}><ShowCandidates candidate={candidate} key={candidate.id} /> </Col>;
+                                    })) : (<Col xs={12} md={6}><h4 className="text-center">No applications available!</h4> </Col>)
+                            }
+
+
+                        </Row>
+                    </Container>
                 </Modal.Body>
             </Modal>
-        </div>
+        </div >
     );
 }
 
