@@ -96,19 +96,14 @@ function GetCandidates({ showCandidates, handleCandidates, id }) {
                     <Modal.Title>Applied Candidates</Modal.Title>
                 </Modal.Header>
                 <Modal.Body className="bg-light">
-                    <Container >
-                        <Row>
-
-                            {
-                                candidates ?
-                                    (candidates.map((candidate) => {
-                                        return <Col xs={12} md={6}><ShowCandidates candidate={candidate} key={candidate.id} /> </Col>;
-                                    })) : (<Col xs={12} md={6}><h4 className="text-center">No applications available!</h4> </Col>)
-                            }
-
-
-                        </Row>
-                    </Container>
+                    <div className="parentDiv" >
+                        {
+                            candidates ?
+                                (candidates.map((candidate) => {
+                                    return <div className="candidateDiv"><ShowCandidates candidate={candidate} key={candidate.id} /> </div>;
+                                })) : (<div className="nocandidateDiv"><h4 className="text-center">No applications available!</h4> </div>)
+                        }
+                    </div>
                 </Modal.Body>
             </Modal>
         </div >

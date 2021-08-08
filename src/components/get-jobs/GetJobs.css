@@ -1,14 +1,3 @@
-.cards {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.card {
-    flex: 1 0 500px;
-    box-sizing: border-box;
-    margin: 1rem .25em;
-}
-
 .textOverflow {
     width: 18em;
     white-space: nowrap;
@@ -26,4 +15,14 @@
     background-color: #303F60;
     color: white;
     border: none;
+}
+
+.parentDiv {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.childDiv {
+    flex: 0 1 30%;
+    margin: 5px;
 }

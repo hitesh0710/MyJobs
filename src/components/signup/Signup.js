@@ -148,7 +148,7 @@ export default function Signup() {
                                 <Form.Group
                                     as={Col}
                                     controlId="validationFormik103"
-                                    className="position-relative"
+                                    className="position-relative customPadding"
                                 >
                                     <Form.Label>
                                         Create Password*

@@ -12,8 +12,8 @@ import { useHistory } from 'react-router-dom';
 function ShowJobs({ job }) {
     const [showCandidates, handleCandidates] = React.useState(false);
     return (
-        <div className="col-4">
-            <Card style={{ width: '20em' }}>
+        <div >
+            <Card>
                 <Card.Body>
                     <Card.Title>{job.title}</Card.Title>
                     <Card.Text className="textOverflow">
@@ -123,7 +123,7 @@ function GetJobs() {
     return (
         <div>
             <h2 className="text-white">Jobs posted by you</h2>
-            <div className="row">
+            <div className="parentDiv">
                 {totalPic > 0 &&
                     <div>
                         {currPage > 1 && <button onClick={prevPage}> {`<`} </button>}
@@ -133,7 +133,7 @@ function GetJobs() {
 
                 {
                     jobs.map((job) => {
-                        return <ShowJobs job={job} key={job.id} />;
+                        return <div className="childDiv"><ShowJobs job={job} key={job.id} /></div>;
                     })
                 }
 
