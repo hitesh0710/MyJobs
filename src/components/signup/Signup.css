@@ -48,3 +48,7 @@
 .customPadding {
     padding-right: 0px;
 }
+
+.inlineGrid {
+    display: flex;
+}

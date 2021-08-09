@@ -49,7 +49,6 @@ export default function Signup() {
                                 setSubmitting(false);
                             })
                             .catch((error) => {
-                                console.log(values);
                                 if (error.response.data.message) {
                                     snackbar("error", "user already exists");
                                     setSubmitting(false);
@@ -86,25 +85,27 @@ export default function Signup() {
                                     className="position-relative"
                                 >
                                     <Form.Label>I'm a*</Form.Label>
-                                    <Form.Check
-                                        type="radio"
-                                        label="Recruiter"
-                                        name="userRole"
-                                        id="formHorizontalRadios1"
-                                        value={0}
-                                        onChange={(e) => values.userRole = Number(e.target.value)}
-                                        defaultChecked
-                                        className="radio-toolbar"
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        label="Candidate"
-                                        name="userRole"
-                                        value={1}
-                                        id="formHorizontalRadios2"
-                                        onChange={(e) => values.userRole = Number(e.target.value)}
-                                        className="radio-toolbar"
-                                    />
+                                    <div className="inlineGrid">
+                                        <Form.Check
+                                            type="radio"
+                                            label="Recruiter"
+                                            name="userRole"
+                                            id="formHorizontalRadios1"
+                                            value={0}
+                                            onChange={(e) => values.userRole = Number(e.target.value)}
+                                            defaultChecked
+                                            className="radio-toolbar"
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            label="Candidate"
+                                            name="userRole"
+                                            value={1}
+                                            id="formHorizontalRadios2"
+                                            onChange={(e) => values.userRole = Number(e.target.value)}
+                                            className="radio-toolbar"
+                                        />
+                                    </div>
                                     {touched.userRole && errors.userRole ? (
                                         <div className="error-message">{errors.userRole}</div>
                                     ) : null}
