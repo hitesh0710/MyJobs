@@ -12,21 +12,19 @@ import { useHistory } from 'react-router-dom';
 function ShowJobs({ job }) {
     const [showCandidates, handleCandidates] = React.useState(false);
     return (
-        <div >
+        <div className="marginCard">
             <Card>
                 <Card.Body>
                     <Card.Title>{job.title}</Card.Title>
                     <Card.Text className="textOverflow">
                         {job.description}
                     </Card.Text>
-                    <Card.Text>
+                    <div>
                         <div>
-                            <div>
-                                <LocationOnOutlinedIcon className="text-primary" /> {job.location}
-                            </div>
-                            <Button onClick={() => handleCandidates(true)} className="my-2 customButton">Applied Candidates</Button>
+                            <LocationOnOutlinedIcon className="text-primary" /> {job.location}
                         </div>
-                    </Card.Text>
+                        <Button onClick={() => handleCandidates(true)} className="my-2 customButton">Applied Candidates</Button>
+                    </div>
                 </Card.Body >
             </Card >
             <GetCandidates showCandidates={showCandidates} handleCandidates={handleCandidates} id={job.id} />
@@ -76,7 +74,7 @@ function GetJobs() {
             setLoad(false);
         });
 
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const prevPage = (e) => {
         e.preventDefault();
@@ -133,7 +131,7 @@ function GetJobs() {
 
                 {
                     jobs.map((job) => {
-                        return <div className="childDiv"><ShowJobs job={job} key={job.id} /></div>;
+                        return <div className="childDiv" key={job.id}><ShowJobs job={job} /></div>;
                     })
                 }
 

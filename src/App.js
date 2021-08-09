@@ -29,6 +29,7 @@ function App() {
     localStorage.setItem('login', isLoggedIn);
     localStorage.setItem('name', userName);
     localStorage.setItem('token', authToken);
+    document.body.style.backgroundColor = "#EDF6FF";
   }, [isLoggedIn, authToken, userName]);
 
   let user = {

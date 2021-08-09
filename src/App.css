@@ -6,11 +6,6 @@
   opacity: 1;
 }
 
-.mainBg {
-  height: 100vh;
-  background: #EDF6FF 0% 0% no-repeat padding-box;
-}
-
 .menuBar {
   top: 0px;
   left: 0px;

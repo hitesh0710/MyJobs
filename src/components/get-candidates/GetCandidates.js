@@ -10,7 +10,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 
 function ShowCandidates({ candidate }) {
     return (
-        <Card >
+        <Card className="marginCard">
             <Card.Body>
                 <Card.Text>
                     <Container>
@@ -60,7 +60,7 @@ function GetCandidates({ showCandidates, handleCandidates, id }) {
             setError(true);
         });
 
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
     if (showCandidates && error)
@@ -100,7 +100,7 @@ function GetCandidates({ showCandidates, handleCandidates, id }) {
                         {
                             candidates ?
                                 (candidates.map((candidate) => {
-                                    return <div className="candidateDiv"><ShowCandidates candidate={candidate} key={candidate.id} /> </div>;
+                                    return <div className="candidateDiv" key={candidate.id} ><ShowCandidates candidate={candidate} /> </div>;
                                 })) : (<div className="nocandidateDiv"><h4 className="text-center">No applications available!</h4> </div>)
                         }
                     </div>

@@ -1,12 +1,10 @@
 .candidateDiv {
-    flex: 0 0 49%;
-    margin: 3px;
+    flex: 0 0 50%;
 }
 
 @media only screen and (max-width: 600px) {
     .candidateDiv {
         flex: 1 0 80%;
-        margin: 3px;
     }
 }
 
