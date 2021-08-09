@@ -21,7 +21,9 @@ export default function Signup() {
         password: yup.string().min(6, "*Password must have at least 6 characters")
             .max(50, "*Password can't be longer than 100 characters").required(),
         name: yup.string().min(2, "*Name must have at least 2 characters")
-            .max(100, "*Names can't be longer than 100 characters").required(),
+            .max(100, "*Name can't be longer than 100 characters").matches(/^[A-Za-z]+$/,
+                "*Name should contain only alphabets"
+            ).required(),
         userRole: yup.number().required(),
         confirmPassword: yup.string().min(6, "*Password must have at least 6 characters")
             .max(50, "*Password can't be longer than 100 characters").required(),
@@ -47,8 +49,13 @@ export default function Signup() {
                                 setSubmitting(false);
                             })
                             .catch((error) => {
-                                if (error) {
+                                console.log(values);
+                                if (error.response.data.message) {
                                     snackbar("error", "user already exists");
+                                    setSubmitting(false);
+                                }
+                                else {
+                                    snackbar("error", "some error ocurred");
                                     setSubmitting(false);
                                 }
                             });
@@ -85,7 +92,7 @@ export default function Signup() {
                                         name="userRole"
                                         id="formHorizontalRadios1"
                                         value={0}
-                                        onChange={handleChange}
+                                        onChange={(e) => values.userRole = Number(e.target.value)}
                                         defaultChecked
                                         className="radio-toolbar"
                                     />
@@ -95,7 +102,7 @@ export default function Signup() {
                                         name="userRole"
                                         value={1}
                                         id="formHorizontalRadios2"
-                                        onChange={handleChange}
+                                        onChange={(e) => values.userRole = Number(e.target.value)}
                                         className="radio-toolbar"
                                     />
                                     {touched.userRole && errors.userRole ? (
@@ -109,12 +116,12 @@ export default function Signup() {
                                     controlId="validationFormik101"
                                     className="position-relative"
                                 >
-                                    <Form.Label>Full Name*</Form.Label>
+                                    <Form.Label>Name*</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="name"
                                         value={values.name}
-                                        placeholder="Enter your full name"
+                                        placeholder="Enter your name"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         className={touched.name && errors.name ? "textboxBg error" : "textboxBg"}
