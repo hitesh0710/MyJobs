@@ -25,7 +25,8 @@ export default function Signup() {
         userRole: yup.number().required(),
         confirmPassword: yup.string().min(6, "*Password must have at least 6 characters")
             .max(50, "*Password can't be longer than 100 characters").required(),
-        skills: yup.string()
+        skills: yup.string().min(3, "*Skills must have at least 3 characters")
+            .max(150, "*Skills can't be longer than 150 characters").required()
     });
 
     if (isLoggedIn)
@@ -197,7 +198,7 @@ export default function Signup() {
                                     controlId="validationFormik106"
                                     className="position-relative"
                                 >
-                                    <Form.Label>Skills</Form.Label>
+                                    <Form.Label>Skills*</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="skills"
@@ -205,8 +206,11 @@ export default function Signup() {
                                         placeholder="Enter comma seperated skills"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="textboxBg"
+                                        className={touched.skills && errors.skills ? "textboxBg error" : "textboxBg"}
                                     />
+                                    {touched.skills && errors.skills ? (
+                                        <div className="error-message">{errors.skills}</div>
+                                    ) : null}
                                 </Form.Group>
                             </Row>
                             <div className="mt-3 text-center">
